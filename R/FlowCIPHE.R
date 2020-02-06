@@ -1,4 +1,3 @@
-#@ `export
 read.FCS.CIPHE <- function(fcs){
   out <- tryCatch({
     read.FCS(fcs,emptyValue=FALSE)
@@ -8,7 +7,6 @@ read.FCS.CIPHE <- function(fcs){
   })
 }
 
-#@ `export
 catch.create.FCS.from.CSV <- function(csv){
   if(dim(csv)[2]<2){return(NULL)}
   out <- tryCatch({
@@ -19,7 +17,6 @@ catch.create.FCS.from.CSV <- function(csv){
   })
 }
 
-#@ `export
 found.spill.CIPHE <- function(fcs){
   comp <- "NULL"
   dim <- "NULL"
@@ -35,8 +32,6 @@ found.spill.CIPHE <- function(fcs){
   return(c(comp,dim))
 }
 
-#@ `export
-
 compensate.CIPHE <- function(flow.frame, spill=NULL){
   if(is.null(spill)){
     spill <- foundSpillCIPHE(flow.frame)[1]
@@ -47,8 +42,6 @@ compensate.CIPHE <- function(flow.frame, spill=NULL){
   }
 }
 
-
-#@ `export
 delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
   id <- which(colnames(fcs)==marker)
   data <- exprs(fcs)
@@ -76,7 +69,6 @@ delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
   return(fcs)
 }
 
-#@ `export
 enrich.FCS.CIPHE <- function(original, new.column){
   new_p <- parameters(original)[1,]
   ## Now, let's change it's name from $P1 to $P26 (or whatever the next new number is)
@@ -105,7 +97,6 @@ enrich.FCS.CIPHE <- function(original, new.column){
   return(new_fcs)
 }
 
-#@ `export
 logicle.CIPHE <- function(flow.frame, value = NULL, markers = NULL){
 
   if(is.null(markers)){
@@ -142,16 +133,13 @@ logicle.CIPHE <- function(flow.frame, value = NULL, markers = NULL){
   w.values <- (4.5-log10(262143/abs(r.values)))/2
   w.values[which(w.values<0)] <- 0.5
   w.values[which(is.infinite(w.values))] <- 0.5
-
   for(t in 1:length(markers.transform)){
     lgcl <- logicleTransform(w=w.values[t])
     flow.frame <- transform(flow.frame, transformList(markers.transform[t],lgcl))
   }
-
   return(flow.frame)
 }
 
-#@ `export
 invers.logicle.CIPHE <- function(flow.frame, value = NULL, markers = NULL){
   if(is.null(markers)){
     if(is.null(flow.frame@description[["SPILL"]])){
@@ -198,7 +186,6 @@ invers.logicle.CIPHE <- function(flow.frame, value = NULL, markers = NULL){
   return(flow.frame.inv)
 }
 
-#@ `export
 arcsinh.CIPHE <- function(flow.frame, marker=NULL, arg){
   raw <- flow.frame@exprs
   mat <- flow.frame@exprs
@@ -213,7 +200,6 @@ arcsinh.CIPHE <- function(flow.frame, marker=NULL, arg){
   return(flow.frame)
 }
 
-#@ `export
 invers.arcsinh.CIPHE <- function(flow.frame, marker_untrans, arg){
   raw <- flow.frame@exprs
   mat <- flow.frame@exprs
@@ -226,7 +212,6 @@ invers.arcsinh.CIPHE <- function(flow.frame, marker_untrans, arg){
   return(flow.frame)
 }
 
-#@ `export
 decompensate.CIPHE <- function(x, spillover) {
   if(!is.null(spillover)){
     cols <- colnames(spillover)
