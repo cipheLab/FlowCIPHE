@@ -246,6 +246,10 @@ concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
   return(ff.concat)
 }
 
+deconcatenate.FCS.CIPHE <- function(flow.frames, params){
+
+}
+
 write.Label.Enrich.CIPHE <- function(fcs, annotation.column, populations.dataframe){
   #populations : >id1;pop1> ... >idN;popN
 
