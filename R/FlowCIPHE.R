@@ -97,7 +97,7 @@ enrich.FCS.CIPHE <- function(original, new.column){
   return(new_fcs)
 }
 
-logicle.CIPHE <- function(flow.frame, value = NULL, markers = NULL){
+logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
 
   if(is.null(markers)){
     if(is.null(flow.frame@description[["SPILL"]])){
@@ -140,7 +140,7 @@ logicle.CIPHE <- function(flow.frame, value = NULL, markers = NULL){
   return(flow.frame)
 }
 
-invers.logicle.CIPHE <- function(flow.frame, value = NULL, markers = NULL){
+invers.logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
   if(is.null(markers)){
     if(is.null(flow.frame@description[["SPILL"]])){
       markers.transform <- colnames(flow.frame)
@@ -228,3 +228,69 @@ decompensate.CIPHE <- function(x, spillover) {
     return(x)
   }
 }
+
+concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
+  ff.concat <- NULL
+  n <- length(flow.frames)
+  for(i in 1:n){
+    ff.raw <- flow.frames[[i]]
+    p <- matrix(i, nrow = nrow(ff.raw), ncol=1, dimnames = list(NULL, params))
+    new.col <- as.vector(p)
+    ff.raw <- enrichFCSbyCIPHE(ff.raw, new.col, nw.names=params)
+    if(is.null(ff.concat)){
+      ff.concat  <- ff.raw
+    } else {
+      exprs(ff.concat) <- rbind(exprs(ff.concat),exprs(ff.raw))
+    }
+  }
+  return(ff.concat)
+}
+
+write.Label.Enrich.CIPHE <- function(fcs, annotation.column, populations.dataframe){
+  #populations : >id1;pop1> ... >idN;popN
+
+  #populations.dataframe: noms de colonne = ID, Name
+
+  #Number of populations
+  keyword.data <- ""
+
+  #Populations
+  for(i in 1:nrow(populations.dataframe))
+  {
+    pop <- populations.dataframe[i,]
+    tmp.data <- paste(pop$Name, pop$ID, sep=";")
+    keyword.data <- paste0(keyword.data, tmp.data, ">")
+  }
+
+  fcs@description[[paste0("P",annotation.column,"PopN")]] <- keyword.data
+
+  return(fcs)
+}
+
+read.Label.Enrich.CIPHE <- function(fcs, annotation.column, add.pop.size=T){
+  pop.table <- NULL
+  pop.keyword <- fcs@description[[paste0("P",annotation.column,"PopN")]]
+  if(!is.na(pop.keyword) && length(pop.keyword)>0)
+  {
+    tmp.populations <- unlist(strsplit(pop.keyword, ">", fixed = T))[-1]
+    pop.table <- matrix(0, ncol=3, nrow=length(tmp.populations))
+    colnames(pop.table) <- c("ID", "Name", "Events")
+    for(i in 1:length(tmp.populations))
+    {
+      tmp.pop <- tmp.populations[[i]]
+      pop.table[i,c(1,2)] <- as.character(unlist(strsplit(tmp.pop, ";", fixed = T)))
+      if(add.pop.size)
+      {
+        pop.table[i,3] <- as.integer(sum(fcs@exprs[,annotation.column]==as.integer(pop.table[i,1])))
+      }
+    }
+    pop.table <- data.frame(pop.table, stringsAsFactors = F)
+    pop.table$Events <- as.integer(pop.table$Events)
+    if(!add.pop.size)
+    {
+      pop.table <- pop.table[,c(1,2)]
+    }
+  }
+  return(pop.table)
+}
+
