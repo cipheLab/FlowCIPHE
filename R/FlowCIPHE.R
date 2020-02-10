@@ -40,6 +40,8 @@ compensate.CIPHE <- function(flow.frame, spill=NULL){
       return(flow.frame)
     }
   }
+  fcs <- compensate(flow.frame, spill)
+  return(fcs)
 }
 
 delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
