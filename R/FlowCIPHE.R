@@ -314,7 +314,7 @@ read.Label.Enrich.CIPHE <- function(fcs, annotation.column, add.pop.size=T){
   return(pop.table)
 }
 
-norm.percentile.FCS.CIPHE <- function(fcs, min.perc=0.0005, max.perc=0.9995, markers=NULL){
+norm.percentile.FCS.CIPHE <- function(fcs, min.value=0.5, max.value=4.5, markers=NULL){
   if(is.null(markers)){
     markers <- colnames(fcs@description[[found.spill.CIPHE(fcs)[1]]])
   }
@@ -323,16 +323,22 @@ norm.percentile.FCS.CIPHE <- function(fcs, min.perc=0.0005, max.perc=0.9995, mar
     return(fcs)
   }
   for(i in markers){
-    min <- quantile(dim, probs = min.perc)
-    max <- quantile(dim, probs = max.perc)
-    if(length(which(fcs@exprs[,i]>min))>0){
-      fcs <- fcs[which(fcs@exprs[,i]>min),]
-    }
-    if(length(which(fcs@exprs[,i]<max))>0){
-      fcs <- fcs[which(fcs@exprs[,i]<max),]
-    }
     fcs@exprs[,i] <- (fcs@exprs[,i]-min)/(max-min)
   }
   return(fcs)
 
+}
+
+unNorm.percentile.FCS.CIPHE <- function(fcs, min.value=0.5, max.value=4.5, markers=NULL){
+  if(is.null(markers)){
+    markers <- colnames(fcs@description[[found.spill.CIPHE(fcs)[1]]])
+  }
+  if(is.null(markers)){
+    warning("No markers found !")
+    return(fcs)
+  }
+  for(i in markers){
+    fcs@exprs[,i] <- (fcs@exprs[,i]*(max-min))+min
+  }
+  return(fcs)
 }
