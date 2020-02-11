@@ -248,8 +248,22 @@ concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
   return(ff.concat)
 }
 
-deconcatenate.FCS.CIPHE <- function(flow.frames, params){
-
+deconcatenate.FCS.CIPHE <- function(flow.frame, params){
+  if(params%in%colnames(flow.frames)){
+    flow.frames <- lapply(sort(unique(flow.frame@exprs[,params])), function(i){
+      fcs <- flow.frames@exprs[which(flow.frame@exprs[,params]==i),]
+      return(fcs)
+    })
+  } else {
+    warning("Params does'nt exist in flowFrame files")
+    return(NULL)
+  }
+  if(!is.null(flow.frames@description[[paste0("P",which(colnames==params),"PopN")]])){
+    table <- read.Label.Enrich.CIPHE(fcs, params)
+  } else {
+    names(flow.frames) <-sort(unique(flow.frame@exprs[,params]))
+  }
+  return(flow.frames)
 }
 
 write.Label.Enrich.CIPHE <- function(fcs, annotation.column, populations.dataframe){
@@ -300,3 +314,25 @@ read.Label.Enrich.CIPHE <- function(fcs, annotation.column, add.pop.size=T){
   return(pop.table)
 }
 
+norm.percentile.FCS.CIPHE <- function(fcs, min.perc=0.0005, max.perc=0.9995, markers=NULL){
+  if(is.null(markers)){
+    markers <- colnames(fcs@description[[found.spill.CIPHE(fcs)[1]]])
+  }
+  if(is.null(markers)){
+    warning("No markers found !")
+    return(fcs)
+  }
+  for(i in markers){
+    min <- quantile(dim, probs = min.perc)
+    max <- quantile(dim, probs = max.perc)
+    if(length(which(fcs@exprs[,i]>min))>0){
+      fcs <- fcs[which(fcs@exprs[,i]>min),]
+    }
+    if(length(which(fcs@exprs[,i]<max))>0){
+      fcs <- fcs[which(fcs@exprs[,i]<max),]
+    }
+    fcs@exprs[,i] <- (fcs@exprs[,i]-min)/(max-min)
+  }
+  return(fcs)
+
+}
