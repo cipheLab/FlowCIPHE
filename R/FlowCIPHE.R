@@ -181,8 +181,8 @@ invers.logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
   flow.frame.inv <- flow.frame
 
   for(t in 1:length(markers.transform)){
-    invLgcl <- inverseLogicleTransform(trans = logicleTransform(w=w.values[t]))
-    flow.frame.inv <- transform(flow.frame.inv, transformList(markers.transform[t],invLgcl))
+    invLgcl <- flowCore::inverseLogicleTransform(trans = logicleTransform(w=w.values[t]))
+    flow.frame.inv <- flowCore::transform(flow.frame.inv, transformList(markers.transform[t],invLgcl))
   }
 
   return(flow.frame.inv)
