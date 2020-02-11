@@ -136,18 +136,18 @@ logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
   w.values[which(w.values<0)] <- 0.5
   w.values[which(is.infinite(w.values))] <- 0.5
   for(t in 1:length(markers.transform)){
-    lgcl <- logicleTransform(w=w.values[t])
-    flow.frame <- transform(flow.frame, transformList(markers.transform[t],lgcl))
+    lgcl <- flowCore::logicleTransform(w=w.values[t])
+    flow.frame <- flowCore::transform(flow.frame, transformList(markers.transform[t],lgcl))
   }
   return(flow.frame)
 }
 
 invers.logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
   if(is.null(markers)){
-    if(is.null(flow.frame@description[["SPILL"]])){
+    if(is.null(flow.frame@description[[found.spill.CIPHE(flow.frames)[[1]]]])){
       markers.transform <- colnames(flow.frame)
     } else {
-      markers.transform <- colnames(flow.frame@description[["SPILL"]])
+      markers.transform <- colnames(flow.frame@description[[found.spill.CIPHE(flow.frames)[[1]]]])
     }
   } else {
     markers.transform <- markers
