@@ -34,13 +34,13 @@ found.spill.CIPHE <- function(fcs){
 
 compensate.CIPHE <- function(flow.frame, spill=NULL){
   if(is.null(spill)){
-    spill <- foundSpillCIPHE(flow.frame)[1]
+    spill <- found.spill.CIPHE(flow.frame)[1]
     if(is.null(spill)){
       warning("No compensation apply and/or found")
       return(flow.frame)
     }
   }
-  fcs <- compensate(flow.frame, spill)
+  fcs <- flowCore::compensate(flow.frame, flow.frame@description[[spill]])
   return(fcs)
 }
 
@@ -102,10 +102,10 @@ enrich.FCS.CIPHE <- function(original, new.column){
 logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
 
   if(is.null(markers)){
-    if(is.null(flow.frame@description[["SPILL"]])){
+    if(is.null(flow.frame@description[[found.spill.CIPHE(flow.frame)[[1]]]])){
       markers.transform <- colnames(flow.frame)
     } else {
-      markers.transform <- colnames(flow.frame@description[["SPILL"]])
+      markers.transform <- colnames(flow.frame@description[[found.spill.CIPHE(flow.frame)[[1]]]])
     }
   } else {
     markers.transform <- markers
