@@ -144,10 +144,10 @@ logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
 
 invers.logicle.CIPHE <- function(flow.frame, value=NULL, markers=NULL){
   if(is.null(markers)){
-    if(is.null(flow.frame@description[[found.spill.CIPHE(flow.frames)[[1]]]])){
+    if(is.null(flow.frame@description[[found.spill.CIPHE(flow.frame)[[1]]]])){
       markers.transform <- colnames(flow.frame)
     } else {
-      markers.transform <- colnames(flow.frame@description[[found.spill.CIPHE(flow.frames)[[1]]]])
+      markers.transform <- colnames(flow.frame@description[[found.spill.CIPHE(flow.frame)[[1]]]])
     }
   } else {
     markers.transform <- markers
