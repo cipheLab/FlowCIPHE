@@ -337,7 +337,7 @@ norm.percentile.FCS.CIPHE <- function(fcs, min.value=0.5, max.value=4.5, markers
     return(fcs)
   }
   for(i in markers){
-    fcs@exprs[,i] <- (fcs@exprs[,i]-min)/(max-min)
+    fcs@exprs[,i] <- (fcs@exprs[,i]-min.value)/(max.value-min.value)
   }
   return(fcs)
 
@@ -352,7 +352,7 @@ unNorm.percentile.FCS.CIPHE <- function(fcs, min.value=0.5, max.value=4.5, marke
     return(fcs)
   }
   for(i in markers){
-    fcs@exprs[,i] <- (fcs@exprs[,i]*(max-min))+min
+    fcs@exprs[,i] <- (fcs@exprs[,i]*(max.value-min.value))+min.value
   }
   return(fcs)
 }
