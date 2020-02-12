@@ -238,7 +238,7 @@ concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
     ff.raw <- flow.frames[[i]]
     p <- matrix(i, nrow = nrow(ff.raw), ncol=1, dimnames = list(NULL, params))
     new.col <- as.vector(p)
-    ff.raw <- enrichFCSbyCIPHE(ff.raw, new.col, nw.names=params)
+    ff.raw <- enrich.FCS.CIPHE(ff.raw, new.col, nw.names=params)
     if(is.null(ff.concat)){
       ff.concat  <- ff.raw
     } else {
