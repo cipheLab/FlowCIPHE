@@ -357,8 +357,8 @@ unNorm.percentile.FCS.CIPHE <- function(fcs, min.value=0.5, max.value=4.5, marke
   return(fcs)
 }
 
-clean.tails.FCS.CIPHE <- function(fcs, unclean.marker=NULL){
-  for(i in c(1:dim(fcs)[1])){
+clean.tails.FCS.CIPHE <- function(fcs, markers=NULL){
+  for(i in markers){
     fcs <- fcs[which(fcs@exprs[,i]>0),]
     m <- max(fcs@exprs[,i])
     fcs <- fcs[which(fcs@exprs[,i]<m),]
