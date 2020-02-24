@@ -20,6 +20,9 @@ Librayrie R du CIPHE contenant des fonction pour le traitement de fichier FCS. L
 
 - deconcatenate.CIPHE : en cours décriture....
 
+- clean.tails.FCS.CIPHE : permet de supprimer les valeur négatives (une intensité n'est pas censé être negative) ou celle qui sont "stacker" a la valeur canal max. A faire avant transformation !!
+
+
 
 
 ## How to install
