@@ -33,7 +33,7 @@ found.spill.CIPHE <- function(fcs){
 }
 
 compensate.CIPHE <- function(flow.frame, spill=NULL){
-  if(is.null(spill)){
+  if(is.null(spill) || spill == "NULL"){
     spill <- found.spill.CIPHE(flow.frame)[1]
     if(is.null(spill)){
       warning("No compensation apply and/or found")
@@ -266,6 +266,7 @@ deconcatenate.FCS.CIPHE <- function(flow.frame, params){
   if(params%in%colnames(flow.frames)){
     flow.frames <- lapply(sort(unique(flow.frame@exprs[,params])), function(i){
       fcs <- flow.frames@exprs[which(flow.frame@exprs[,params]==i),]
+      fcs <- delete.column.FCS.CIPHE(fcs, params)
       return(fcs)
     })
   } else {
