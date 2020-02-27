@@ -228,7 +228,7 @@ invers.arcsinh.CIPHE <- function(flow.frame, marker_untrans, arg){
   return(flow.frame)
 }
 
-decompensate.CIPHE <- function(x, spillover) {
+decompensate.CIPHE <- function(x, spillover=NULL) {
   if(!is.null(spillover)){
     cols <- colnames(spillover)
     sel <- cols %in% colnames(x)
