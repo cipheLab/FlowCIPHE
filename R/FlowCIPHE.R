@@ -35,7 +35,7 @@ found.spill.CIPHE <- function(fcs){
 compensate.CIPHE <- function(flow.frame, spill=NULL){
   if(is.null(spill) || spill == "NULL"){
     spill <- found.spill.CIPHE(flow.frame)[1]
-    if(is.null(spill) || spill == "NULL"){
+    if(is.null(spill)){
       warning("No compensation apply and/or found")
       return(flow.frame)
     }
@@ -228,7 +228,7 @@ invers.arcsinh.CIPHE <- function(flow.frame, marker_untrans, arg){
   return(flow.frame)
 }
 
-decompensate.CIPHE <- function(x, spillover=NULL) {
+decompensate.CIPHE <- function(x, spillover) {
   if(!is.null(spillover)){
     cols <- colnames(spillover)
     sel <- cols %in% colnames(x)
@@ -273,10 +273,10 @@ deconcatenate.FCS.CIPHE <- function(flow.frame, params){
     warning("Params does'nt exist in flowFrame files")
     return(NULL)
   }
-  if(!is.null(flow.frame@description[[paste0("P",which(colnames==params),"PopN")]])){
+  if(!is.null(flow.frames@description[[paste0("P",which(colnames==params),"PopN")]])){
     table <- read.Label.Enrich.CIPHE(fcs, params)
   } else {
-    names(flow.frames) <- sort(unique(flow.frame@exprs[,params]))
+    names(flow.frames) <-sort(unique(flow.frame@exprs[,params]))
   }
   return(flow.frames)
 }
