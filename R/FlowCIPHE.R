@@ -263,7 +263,7 @@ concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
 }
 
 deconcatenate.FCS.CIPHE <- function(flow.frame, params){
-  if(params%in%colnames(flow.frames)){
+  if(params%in%colnames(flow.frame)){
     flow.frames <- lapply(sort(unique(flow.frame@exprs[,params])), function(i){
       fcs <- flow.frames@exprs[which(flow.frame@exprs[,params]==i),]
       fcs <- delete.column.FCS.CIPHE(fcs, params)
@@ -273,10 +273,10 @@ deconcatenate.FCS.CIPHE <- function(flow.frame, params){
     warning("Params does'nt exist in flowFrame files")
     return(NULL)
   }
-  if(!is.null(flow.frames@description[[paste0("P",which(colnames==params),"PopN")]])){
+  if(!is.null(flow.frame@description[[paste0("P",which(colnames==params),"PopN")]])){
     table <- read.Label.Enrich.CIPHE(fcs, params)
   } else {
-    names(flow.frames) <-sort(unique(flow.frame@exprs[,params]))
+    names(flow.frames) <- sort(unique(flow.frame@exprs[,params]))
   }
   return(flow.frames)
 }
