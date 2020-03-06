@@ -65,8 +65,10 @@ delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
   if(!is.null(spill)){
     new.spill <- fcs@description[[spill]]
     id.spill <- which(colnames(new.spill)==marker)
-    new.spill <- new.spill[-id.spill,-id.spill]
-    fcs@description[[spill]] <- new.spill
+    if(length(id.spill)>0){
+      new.spill <- new.spill[-id.spill,-id.spill]
+      fcs@description[[spill]] <- new.spill
+    }
   }
   return(fcs)
 }
