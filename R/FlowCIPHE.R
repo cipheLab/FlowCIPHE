@@ -234,7 +234,7 @@ decompensate.CIPHE <- function(x, spillover) {
   if(!is.null(spillover)){
     cols <- colnames(spillover)
     sel <- cols %in% colnames(x)
-    # if(!all(sel)) {
+    # if(!all(sel)){
     #   stop(keyword(x)[["FILENAME"]], "\\nThe following parameters in the spillover matrix are not present in the flowFrame:\\n",
     #        paste(cols[!sel], collapse=", "), call.=FALSE)
     # }
