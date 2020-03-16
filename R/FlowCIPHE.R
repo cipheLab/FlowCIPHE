@@ -387,7 +387,8 @@ scatterPlot.FCS.CIPHE <- function(fcs,x,y,z=NULL,xlim=NULL,ylim=NULL,
     }
   } else {
     palette <- colorRampPalette(c("blue","turquoise","green","yellow","orange","red"))
-  } color <- densCols(x,y,colramp = palette)
+    color <- densCols(x,y,colramp = palette)
+  }
 
 
   plot(x,y,col=color,xlim=xlim,ylim=ylim,pch=".",cex=1.5,
