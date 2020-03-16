@@ -369,4 +369,29 @@ clean.tails.FCS.CIPHE <- function(fcs, markers=NULL){
   return(fcs)
 }
 
+scatterPlot.FCS.CIPHE <- function(fcs,x,y,z=NULL,xlim=NULL,ylim=NULL,
+                                  main=NULL,xlab=NULL,ylab=NULL){
+  x <- fcs@exprs[,x]
+  y <- fcs@exprs[,y]
+  if(!is.null(z)){z <- fcs@exprs[,z]}
+  if(is.null(xlim)){xlim <- c(min(x),max(x))}
+  if(is.null(ylim)){ylim <- c(min(y),max(y))}
+
+  if(!is.null(z)){
+    if(length(unique(z))<100){
+      rain <- rainbow(length(unique(z)))
+      color <- rain[z]
+    } else {
+      palette <- colorRampPalette(c(rgb(0,0,1,0.3),rgb(0,1,0,0.3),rgb(1,0,0,0.3)),alpha=TRUE)
+      color <- palette(20)[as.numeric(cut(z,breaks=20))]
+    }
+  } else {
+    palette <- colorRampPalette(c("blue","turquoise","green","yellow","orange","red"))
+  } color <- densCols(x,y,colramp = palette)
+
+
+  plot(x,y,col=color,xlim=xlim,ylim=ylim,pch=".",cex=1.5,
+       main=main,xlab=xlab,ylab=ylab)
+}
+
 
