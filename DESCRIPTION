@@ -11,4 +11,4 @@ Encoding: UTF-8
 LazyData: true
 Depends:
   flowCore,
-  grDevicers
+  grDevices
