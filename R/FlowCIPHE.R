@@ -390,7 +390,6 @@ scatterPlot.FCS.CIPHE <- function(fcs,x,y,z=NULL,xlim=NULL,ylim=NULL,
     color <- densCols(x,y,colramp = palette)
   }
 
-
   plot(x,y,col=color,xlim=xlim,ylim=ylim,pch=".",cex=1.5,
        main=main,xlab=xlab,ylab=ylab)
 }
