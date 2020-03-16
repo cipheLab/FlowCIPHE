@@ -34,8 +34,8 @@ found.spill.CIPHE <- function(fcs){
 
 compensate.CIPHE <- function(flow.frame, spill=NULL){
   if(is.null(spill) || spill == "NULL"){
-    spill <- found.spill.CIPHE(flow.frame)[1]
-    if(is.null(spill)){
+    spill <- found.spill.CIPHE(flow.frame)[[1]]
+    if(spill=="NULL"){
       warning("No compensation apply and/or found")
       return(flow.frame)
     }
