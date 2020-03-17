@@ -45,7 +45,7 @@ compensate.CIPHE <- function(flow.frame, spill=NULL){
 }
 
 delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
-  id <- which(colnames(fcs)==marker)
+  id <- which(colnames(fcs@exprs)==marker)
   print(id)
   data <- exprs(fcs)
   data <- data[,-id]
@@ -266,8 +266,8 @@ concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
 }
 
 deconcatenate.FCS.CIPHE <- function(data, params){
-  print(params%in%colnames(data))
-  if(params%in%colnames(data)){
+  print(params%in%colnames(data@exprs))
+  if(params%in%colnames(data@exprs)){
     flow.frames <- lapply(sort(unique(data@exprs[,params])), function(i){
       fcs <- data[which(data@exprs[,params]==i),]
       fcs <- delete.column.FCS.CIPHE(fcs,marker=params,spill=NULL)
@@ -277,11 +277,11 @@ deconcatenate.FCS.CIPHE <- function(data, params){
     warning("Params does'nt exist in flowFrame files")
     return(fcs)
   }
-  if(!is.null(flow.frames@description[[paste0("P",which(colnames==params),"PopN")]])){
-    table <- read.Label.Enrich.CIPHE(fcs, params)
-  } else {
-    names(flow.frames) <-sort(unique(flow.frame@exprs[,params]))
-  }
+  # if(!is.null(flow.frames[[1]]@description[[paste0("P",which(colnames==params),"PopN")]])){
+  #   table <- read.Label.Enrich.CIPHE(fcs, params)
+  # } else {
+  #   names(flow.frames) <-sort(unique(flow.frames[[1]]@exprs[,params]))
+  # }
   return(flow.frames)
 }
 
