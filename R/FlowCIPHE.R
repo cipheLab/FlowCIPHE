@@ -46,6 +46,7 @@ compensate.CIPHE <- function(flow.frame, spill=NULL){
 
 delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
   id <- which(colnames(fcs)==marker)
+  print(id)
   data <- exprs(fcs)
   data <- data[,-id]
   exprs(fcs) <- data
@@ -265,15 +266,16 @@ concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
 }
 
 deconcatenate.FCS.CIPHE <- function(data, params){
+  print(params%in%colnames(data))
   if(params%in%colnames(data)){
     flow.frames <- lapply(sort(unique(data@exprs[,params])), function(i){
       fcs <- data[which(data@exprs[,params]==i),]
-      fcs <- delete.column.FCS.CIPHE(fcs, params)
+      fcs <- delete.column.FCS.CIPHE(fcs,marker=params,spill=NULL)
       return(fcs)
     })
   } else {
     warning("Params does'nt exist in flowFrame files")
-    return(NULL)
+    return(fcs)
   }
   if(!is.null(flow.frames@description[[paste0("P",which(colnames==params),"PopN")]])){
     table <- read.Label.Enrich.CIPHE(fcs, params)
@@ -360,11 +362,15 @@ unNorm.percentile.FCS.CIPHE <- function(fcs, min.value=0.5, max.value=4.5, marke
   return(fcs)
 }
 
-clean.tails.FCS.CIPHE <- function(fcs, markers=NULL){
+clean.tails.FCS.CIPHE <- function(fcs, markers=NULL, zero=TRUE,max=TRUE){
   for(i in markers){
-    fcs <- fcs[which(fcs@exprs[,i]>0),]
-    m <- max(fcs@exprs[,i])
-    fcs <- fcs[which(fcs@exprs[,i]<m),]
+    if(zero){
+      fcs <- fcs[which(fcs@exprs[,i]>0),]
+    }
+    if(max){
+      m <- max(fcs@exprs[,i])
+      fcs <- fcs[which(fcs@exprs[,i]<m),]
+    }
   }
   return(fcs)
 }
