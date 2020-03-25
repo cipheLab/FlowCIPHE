@@ -49,7 +49,7 @@ delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
   print(id)
   mat <- exprs(fcs)
   mat <- mat[,-id]
-  exprs(fcs) <- mat
+  exprs(fcs) <- data.matrix(mat)
   desc <- fcs@description
   new.desc <- list()
   new.name <- list()
