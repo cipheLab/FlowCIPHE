@@ -268,7 +268,7 @@ concatenate.FCS.CIPHE <- function(flow.frames, params="Flag"){
 deconcatenate.FCS.CIPHE <- function(data, params){
   print(params%in%colnames(data@exprs))
   if(params%in%colnames(data@exprs)){
-    flow.frames <- lapply(sort(unique(data@exprs[,params])), function(i){
+    flow.frames <- lapply(sort(unique(unlist(data@exprs[,params]))), function(i){
       fcs <- data[which(data@exprs[,params]==i),]
       fcs <- delete.column.FCS.CIPHE(fcs,marker=params,spill=NULL)
       return(fcs)
