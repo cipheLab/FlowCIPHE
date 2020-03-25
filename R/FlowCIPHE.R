@@ -47,9 +47,9 @@ compensate.CIPHE <- function(flow.frame, spill=NULL){
 delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
   id <- which(colnames(fcs@exprs)==marker)
   print(id)
-  data <- exprs(fcs)
-  data <- data[,-id]
-  exprs(fcs) <- data
+  mat <- exprs(fcs)
+  mat <- mat[,-id]
+  exprs(fcs) <- mat
   desc <- fcs@description
   new.desc <- list()
   new.name <- list()
