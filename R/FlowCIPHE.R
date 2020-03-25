@@ -76,7 +76,6 @@ delete.column.FCS.CIPHE <- function(fcs, marker, spill=NULL){
 
 enrich.FCS.CIPHE <- function(original, new.column, nw.names=NULL){
   new_p <- parameters(original)[1,]
-
   ## Now, let's change it's name from $P1 to $P26 (or whatever the next new number is)
   new_p_number <- as.integer(dim(original)[2]+1)
   rownames(new_p) <- c(paste0("$P", new_p_number))
