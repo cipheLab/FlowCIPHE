@@ -230,14 +230,10 @@ invers.arcsinh.CIPHE <- function(flow.frame, marker_untrans, arg){
   return(flow.frame)
 }
 
-decompensate.CIPHE <- function(x, spillover) {
+decompensate.CIPHE <- function(x, spillover=NULL) {
   if(!is.null(spillover)){
     cols <- colnames(spillover)
     sel <- cols %in% colnames(x)
-    # if(!all(sel)){
-    #   stop(keyword(x)[["FILENAME"]], "\\nThe following parameters in the spillover matrix are not present in the flowFrame:\\n",
-    #        paste(cols[!sel], collapse=", "), call.=FALSE)
-    # }
     e <- exprs(x)
     e[, cols] <- e[, cols] %*% spillover
     exprs(x) = e
