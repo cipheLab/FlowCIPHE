@@ -78,9 +78,9 @@ enrich.FCS.CIPHE <- function(original, new.column, nw.names=NULL){
   new_p <- parameters(original)[1,]
   ## Now, let's change it's name from $P1 to $P26 (or whatever the next new number is)
   new_p_number <- as.integer(dim(original)[2]+1)
-  while(c(paste0("$P", new_p_number))%in%row.names(pData(original@parameters))){
-    new_p_number <- new_p_number+1
-  }
+  # while(c(paste0("$P",
+  # new_p_number))%in%row.names(pData(original@parameters))){ new_p_number <-
+  # new_p_number+1 }
   rownames(new_p) <- c(paste0("$P", new_p_number))
 
   ## Now, let's combine the original parameter with the new parameter
