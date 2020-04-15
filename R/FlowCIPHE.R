@@ -400,4 +400,20 @@ scatterPlot.FCS.CIPHE <- function(fcs,x,y,z=NULL,xlim=NULL,ylim=NULL,
   return(p)
 }
 
-
+getParams.FCS.CIPHE <- function(i){
+  if(is.null(i)) return(NULL)
+  data <- as.matrix(pData(i@parameters),stringsAsFactors = F)
+  labels <- as.vector(unlist(data[,2]))
+  params <- as.vector(unlist(data[,1]))
+  if(length(which(is.na(labels)))>0){
+    labels[which(is.na(labels))] <- params[c(which(is.na(labels)))]
+  }
+  if(length(which(labels=="<NA>"))>0){
+    labels[which(labels=="<NA>")] <-params[c(which(labels=="<NA>"))]
+  }
+  if(length(which(labels=="NA"))>0){
+    labels[which(labels=="NA")] <- params[c(which(labels=="<NA>"))]
+  }
+  names(params) <- labels
+  return(params)
+}
